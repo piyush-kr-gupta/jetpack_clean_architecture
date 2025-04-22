@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-//    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp") //?? Use KSP instead of kapt
+    id("dagger.hilt.android.plugin") //?? Apply Hilt plugin
 }
 
 android {
@@ -28,6 +29,11 @@ android {
             )
         }
     }
+    packaging {
+        resources {
+            excludes += "META-INF/gradle/incremental.annotation.processors"
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -50,6 +56,19 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    //Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
